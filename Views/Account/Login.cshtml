@@ -1,0 +1,104 @@
+﻿@using eTickets.wwwroot.json.ViewModels;
+    using eTickets.wwwroot.json.ViewModels;
+@model LoginVM;
+
+@{
+    ViewData["Title"] = "Log in to your account";
+}
+
+<style>
+    body {
+        background-color: #121212;
+        color: #eaeaea;
+    }
+
+    .form-control {
+        border: 1px solid #555;
+        color: #fff;
+    }
+
+        .form-control:focus {
+            border-color: #80bdff;
+        }
+
+    .btn-outline-success {
+        border-color: #28a745;
+        color: #28a745;
+    }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    .alert {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
+    .text-light {
+        color: #f8f9fa;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4 class="text-light">Log in to your account</h4>
+        </p>
+
+        @if (TempData["Error"] != null)
+
+
+
+
+
+
+
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span><b>Sorry!</b> - @TempData["Error"] </span>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="control-label text-light"></label>
+                        <input asp-for="EmailAddress" class="form-control bg-dark text-light" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label text-light"></label>
+                        <input asp-for="Password" class="form-control bg-dark text-light" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float-right" type="submit" value="Log in" />
+                        <a class="btn btn-outline-secondary" asp-controller="Movies" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

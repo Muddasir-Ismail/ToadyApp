@@ -1,0 +1,172 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2 mb-4">
+        <div class="card movie-card">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">@Model.Name</h5>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.ImageURL" class="img-fluid w-100 rounded" alt="@Model.Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p>@Model.Description</p>
+                        <p>
+                            <b>Cinema:</b>
+                            <a class="text-decoration-none text-warning" asp-controller="Cinemas" asp-action="Details" asp-route-id="@Model.CinemaId">
+                                @Model.Cinema.Name
+                            </a>
+                        </p>
+                        <p>
+                            <b>Producer:</b>
+                            <a class="text-decoration-none text-warning" asp-controller="Producers" asp-action="Details" asp-route-id="@Model.ProducerId">
+                                @Model.Producer.FullName
+                            </a>
+                        </p>
+                        <p><b>Category:</b> @Model.MovieCategory</p>
+                        <p><b>Start Date:</b> @Model.StartDate.ToString("dd MMM yy")</p>
+                        <p><b>End Date:</b> @Model.EndDate.ToString("dd MMM yy")</p>
+                        <p>
+                            <b>Status:</b>
+                            @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate)
+
+                            {
+                                <span class="badge badge-available">AVAILABLE</span>
+                            }
+
+                            else if (DateTime.Now > Model.EndDate)
+
+                            {
+                                <span class="badge badge-expired">EXPIRED</span>
+                            }
+
+                            else
+
+                            {
+                                <span class="badge badge-upcoming">UPCOMING</span>
+                            }
+                        </p>
+                        <p><b>Actors:</b></p>
+                        <hr />
+                        <div class="row">
+                            @foreach (var actor in Model.Actors_Movies)
+
+                            {
+                                <div class="col-sm-4 col-md-3 text-center mb-3">
+                                    <img class="border-info rounded-circle" src="@actor.Actor.ProfilePictureURL" style="max-width: 120px" alt="@actor.Actor.FullName" />
+                                    <br />
+                                    <a class="text-decoration-none text-warning" asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">
+                                        @actor.Actor.FullName
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer d-flex justify-content-between">
+                        <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
+                        <a class="btn btn-success text-white @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
+                           asp-controller="Orders"
+                           asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
+                            <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: radial-gradient(circle at top, #1a1f2b, #10141d);
+        color: #e0e0e0;
+        font-family: 'Roboto', sans-serif;
+        padding: 20px;
+    }
+
+    .movie-card {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s, box-shadow 0.3s;
+        overflow: hidden;
+    }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+    .card-header {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: #fff;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .badge-available {
+        background: #28a745;
+        color: #fff;
+    }
+
+    .badge-expired {
+        background: #dc3545;
+        color: #fff;
+    }
+
+    .badge-upcoming {
+        background: #007bff;
+        color: #fff;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #ffcc00;
+        color: #ffcc00;
+        padding: 5px 10px;
+        transition: all 0.3s;
+    }
+
+        .btn-outline-primary:hover {
+            background: #ffcc00;
+            color: #1a1f2b;
+        }
+
+    .btn-success {
+        background: linear-gradient(45deg, #ff7e5f, #feb47b);
+        color: #fff;
+        border: none;
+        transition: background 0.3s;
+    }
+
+        .btn-success:hover {
+            background: linear-gradient(45deg, #fe6b6b, #ff6f61);
+        }
+
+    .card-footer {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 10px;
+    }
+
+    img {
+        border-radius: 8px;
+    }
+
+    a.text-warning {
+        transition: color 0.3s;
+    }
+
+        a.text-warning:hover {
+            color: #ffd700;
+        }
+</style>
